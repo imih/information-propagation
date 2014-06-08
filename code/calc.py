@@ -88,7 +88,6 @@ def getNs(unactive_ids, nodes, auth_time, window, _print=False, _small=True):
       hi = mid
   i = lo
 
-  suc, trials = 0.0, 0.0
   y = 0
   tprev = -1
   for t in _time:
@@ -123,24 +122,9 @@ def getNs(unactive_ids, nodes, auth_time, window, _print=False, _small=True):
 
     if t in auth_time:
       if y == 0:
-        suc = suc / auth_time[y]
-        trials = trials / auth_time[y]
-      else:
-        suc = suc / (auth_time[y] - auth_time[y - 1])
-        trials = trials / (auth_time[y] - auth_time[y - 1])
-      
-      print y, suc, trials, (suc / trials)
-      suc, trials = 0, 0
-
-      y = y + 1
+        y = y + 1
     tprev = t
 
-  suc = suc / (7200 - auth_time[-1])
-  trials  =  trials / (7200 - auth_time[-1])
-  print y, suc, trials, (suc / trials)
-
-
- 
   ###############
   if _print:
     print "printing files..."
