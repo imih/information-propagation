@@ -21,7 +21,7 @@
 
 \izvornik{}
 \zahvala{
-Firstly, I wish to thank my advisor, doc. dr. sc Mile  Šikić for great support and valuable guidance. Thank you to Nino Antulov-Fantulin and Matija Piškorec from Ruđer Bošković Institute in Zagreb for numerous advice and suggestions. Also special thanks to Bruno Rahle for contributing greatly in the data collection.}
+Firstly, I wish to thank my advisor, Asst. Prof. Mile  Šikić for great support and valuable guidance. Thank you to Nino Antulov-Fantulin and Matija Piškorec from Ruđer Bošković Institute in Zagreb for numerous advice and suggestions. Also special thanks to Bruno Rahle for contributing greatly in the data collection.}
 
 \tableofcontents
 \clearpage
@@ -119,9 +119,9 @@ The anonymized network of user nodes with corresponding timestamps of activation
 \chapter{Methods}
 \section{Principle of maximal likelihood}
 
-A \emph{statistical model} $S_X(\theta)$ is a family of parametrized probability distributions defined for a set of real-valued parameters represented by vector $\theta$ and continuous or discrete random variable $X$. The distribution can be described  as a probability mass function $F_X(x;\theta) = P(X < x)$, a probability density function $f_X(x;\theta) = \frac{d}{dx}F_X(x;\theta)$ or discrete probability  $P(X = x; \theta)$. With given training set and a statistical model, the principle of maximal likelihood is used to reduce the problem of choosing the distribution from $S_X(\theta)$ for the given training set, what is known as \emph{model fitting}, to the maximization or a minimization problem.
+A \emph{statistical model} $S_X(\theta)$ is a family of parametrized probability distributions defined for a set of real-valued parameters represented by vector $\theta$ and continuous or discrete random variable $X$. The distribution can be described  as a probability mass function $F_X(x;\theta) = P(X = x)$ or a probability density function $f_X(x;\theta) = \frac{d}{dx}F_X(x;\theta)$. With given training set and a statistical model, the principle of maximal likelihood is used to reduce the problem of choosing the distribution from $S_X(\theta)$ for the given training set, what is known as \emph{model fitting}, to the maximization or a minimization problem.
 
- \emph{Random sample} is a training set of $m$ observations, examples or outcomes $x_1, x_2,$ $\dots, x_m$ drawn from the fixed but unknown distribution in $S_X(\theta)$. Suppose that we have a random sample drawn. If we assume the examples are independant, the probability of a random sample is the product of probabilities for the individual examples with some fixed parameters $\theta$:
+ \emph{Random sample} is a set of $m$ observations, examples or outcomes $x_1, x_2,$ $\dots, x_m$ drawn from the fixed but unknown distribution in $S_X(\theta)$. Suppose that we have a random sample drawn. If we assume the examples are independant, the probability of a random sample is the product of probabilities for the individual examples with some fixed parameters $\theta$:
 
 \begin{equation}
 \label{fxt}
@@ -147,7 +147,7 @@ When we want to determine $\hat\theta$ for the given dataset, we will choose bet
 For two discrete random variables $X$ and $Y$, conditional probability is formally defined as 
 \begin{equation}
 \label{cond}
-	p(y | x) = P(Y = y | X = x) = \frac{P(X = y, X = x)}{P(X = x)}. 
+	p(y | x) = P(Y = y | X = x) = \frac{P(Y = y, X = x)}{P(X = x)}. 
 \end{equation}
 We can say that \eqref{cond} denotes the probability of a value $y \in Y$ when the value of $X$ is known. If the variables are dependant, $Y$ follows a probability distribution that is different for different values of $X$. We parametrize all these probability functions with the same vector of parameters $\theta$.
 
@@ -215,7 +215,7 @@ Suppose $Y$ is a binary (Bernoulli) outcome and that $x \in X$ is a  real-valued
 \end{equation}
 with $x \in \mathbf{R}^n$ and $\theta \in \mathbf{R}^{n + 1}$.
 
-The function $\sigma(z) = \frac{1}{1 + e ^ {-z}}$ is nonlinear always-increasing function  and it is commonly known as \emph{the sigmoid function}. The graph of the sigmoid function is shown on the Figure \ref{sig}.
+The function $\sigma(z) = \frac{1}{1 + e ^ {-z}}$ is nonlinear always-increasing function  and it is commonly known as \emph{the sigmoid function}. The graph of the sigmoid function is shown in the Figure \ref{sig}.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.59]{sig.png}
@@ -311,12 +311,12 @@ where $\alpha$, $\beta$ and $\gamma$ are the parameters of logistic regression. 
 
 The arguments (features) $x$ and $y$ come into linear transformation in the argument of the sigmoid function transformed with the $\ln$ function.  That will help in further analysis of retrieved  values of $\alpha$ and $\beta$ since $\ln(x+1)$ and $\ln(y + 1)$ have a similar range of values.  
 
-The value of $\alpha$ in \eqref{Pxy} captures the strength of social influence in the propagation of an information item, while the value of $\beta$ captures the strength of external (authority) pressure. We refer to $\alpha$ and $\beta$ respectively as \emph{peer coefficient} and \emph{authority coefficient}. Parameter $\gamma$ models the impact of other factors in the propagation of an information item, such as daytime dynamic, effect of random chance and other noises. We call $\gamma$ the \emph{externality coefficient}. 
+The value of $\alpha$ in \eqref{Pxy} captures the strength of social influence in the propagation of an information item, while the value of $\beta$ captures the strength of external (authority) pressure. We refer to $\alpha$ and $\beta$ as \emph{peer coefficient} and \emph{authority coefficient}, respectively. Parameter $\gamma$ models the impact of other factors in the propagation of an information item, such as daytime dynamic, effect of random chance and other noises. We call $\gamma$ the \emph{externality coefficient}. 
 
 \subsection{Information propagation model training}
 We estimate $\alpha$, $\beta$, and $\gamma$ by learning the logistic regression classifier using negative log likelihood function. 
 
-To calculate the likelihood, we first define number of nodes that at the beginning of time $t$ had $x$ active influencing neighbors and they themselves became active at time $t$ when $y$ authorities were active as $A(x, y, t)$. Similarly, let $N(x, y, t)$ be the number of users who at the beginning of time $t$ had $x$ active influencing neighbors and they did not became active at time $t$ when $y$ authorities were active. Let $A(x, y) = \sum_{t = 1}^{T}A(x, y, t)$ and $N(x, y) = \sum_{t=1}^{T}N(x, y, t)$. 
+To calculate the likelihood, we first define the number of nodes that at the beginning of time $t$ had $x$ active influencing neighbors and they themselves became active at time $t$ when $y$ authorities were active as $A(x, y, t)$. Similarly, let $N(x, y, t)$ be the number of users who at the beginning of time $t$ had $x$ active influencing neighbors and they did not became active at time $t$ when $y$ authorities were active. Let $A(x, y) = \sum_{t = 1}^{T}A(x, y, t)$ and $N(x, y) = \sum_{t=1}^{T}N(x, y, t)$. 
 
 The maximum-likelihood estimation of parameters $\alpha$, $\beta$ and $\gamma$ are those that maximize the likelihood of the data at time $t$. If every inactive node $u$ is  characterized by two metrics, $x$ and $y$,  $\; L(\alpha, \beta, \gamma)$ is defined as
 \begin{equation}
@@ -485,7 +485,7 @@ Values of $A(x, y)$ for the fixed value  of $y$ may indicate the presence of ext
 \label{fig:test}
 \end{figure}
 
-In the  case of information propagation where only social influence is present, graph of frequency of activation with respect to number of activated neighbours $x$ would look similar to the Figure \ref{y0}. That is, frequency of activation for nodes that have at least one activated neighbour will be greater than the number of activations for nodes with $0$ neighbours active.  A certain sign of authority presence is unexpected frequency of activation for nodes that have $0$ activated neighbours. The Figure \ref{jutarnji1} is an example of that kind of activity where frequency of activation with $0$ neighbours active exceed the frequency of activation with $1$ friend active. 
+In the  case of information propagation where only social influence is present, graph of frequency of activation with respect to the number of activated neighbours $x$ would look similar to the Figure \ref{y0}. That is, frequency of activation for nodes that have at least one activated neighbour will be greater than the number of activations for nodes with $0$ neighbours active.  A certain sign of authority presence is unexpected frequency of activation for nodes that have $0$ activated neighbours. The Figure \ref{jutarnji1} is an example of that kind of activity where frequency of activation with $0$ neighbours active exceed the frequency of activation with $1$ friend active. 
 
 The information propagation dynamic after activation of authority $y=7$ is suspected to be primarily pressured by internal (social influence) what is further approved with Figure \ref{034}. It is important to notice that, as time passes and more nodes become active, the probability of a node having $0$ active neighbours decreases, even for the nodes that become active pressured by external influence. Although the authority $y = 7$ becomes active relatively late, the frequency of activation related to authorities that activate after $y = 7$ form a shape similar to \ref{jutarnji1}. The suspicion of information about the application being propagated mostly pressured by external influence will be confirmed with a model.
 
@@ -621,7 +621,7 @@ The information propagation analysis for the Referendum Dataset based on the pre
 If the external influence for an inactive node at time $t$ is measured by the number of nodes that activate at that  time and do not have any active neighbours, for estimated peer coefficient $\alpha$ and authority coefficient $\beta$, $0 < \alpha < \beta$ holds on both Restricted and Complete Referendum Dataset. The time shuffle test for the Restricted Referendum Dataset has returned a small value of peer strength and a large value of authority strength. Hence, the information propagation is mainly pressured by external influence. The estimation and the shuffle test for the Complete Referendum Dataset reassures the conclusion is correct. 
 
 \bibliography{literatura}
-\bibliographystyle{plain}
+\bibliographystyle{unsrt}
 
 \pagebreak
 \engtitle{Information propagation in online social networks}
