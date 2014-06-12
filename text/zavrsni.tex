@@ -30,7 +30,7 @@ Firstly, I wish to thank my advisor, Asst. Prof. Mile  Šikić for great support
 
 \chapter{Introduction}
 
-A \emph{network} is a set of items with connections between them. The Internet, the World Wide Web, social networks like genealogical trees, networks of friends or co-workers, biological networks like epidemiological networks, networks of citations between papers, distribution systems like postal delivery routes: they all take a form of networks. Most social, biological and technological networks have specific structural properties. Such networks are referred to as \emph{complex networks}.  An example of a complex network is represented on the Figure \ref{net}.
+A \emph{network} is a set of items with connections between them. The Internet, the World Wide Web, social networks like genealogical trees, networks of friends or co-workers, biological networks like epidemiological networks, networks of citations between papers, distribution systems like postal delivery routes: they all take a form of networks. Most social, biological and technological networks have specific structural properties. Such networks are referred to as \emph{complex networks}. Two well-known and much studied classes of complex networks are \emph{scale-free networks} and \emph{small-world networks} whose discovery and definition are canonical case-studies in the field. Both are characterized by specific structural features like power-law degree distributions for the former and short path lengths and high clustering for the latter. An example of a complex network is represented on the Figure \ref{net}.
 
 \begin{figure}[htp]
 \centering
@@ -38,11 +38,11 @@ A \emph{network} is a set of items with connections between them. The Internet, 
 \caption{A network graph of Paul Erd\~os and his collaborators, courtesy of \cite{krebs}. The nodes represent mathematicians and the edges represent the relationship "wrote a paper with".}
 \label{net}
 \end{figure}
-A network structure or a topology can be mathematically modeled as a graph with set of vertices (or nodes) representing the items of the network. The network structure can then be analyzed using graph theory. An edge between two nodes represents a connection between the two corresponding items. Edges can be directed or undirected, depending  on the nature of the connection.  To better mimic the real-world (complex) network structure, it is common to add attributes to nodes and/or edges or to have both directed and undirected edges on the same graph.
+A network structure or a topology can be mathematically modeled as a graph with set of vertices (or nodes) representing the items of the network. The network structure can then be analyzed using graph theory. An edge between two nodes represents a connection between the two corresponding items. Edges can be directed or undirected, weighted or unweighted, depending  on the nature of the connection.  To better mimic the real-world (complex) network structure, it is common to add attributes to nodes and/or edges or to have both directed and undirected edges on the same graph.
 
 For large-scaled complex networks that have millions or billions of vertices, the study in the form of traditional graph theory is not sufficient or sometimes possible. When this is the case, the statistical methods  for quantifying large complex networks are used. 
 
-The ultimate goal of the study of complex network structure is to understand and explain the workings of systems built upon network such as spreading of diseases or information propagation in social networks.
+The ultimate goal of the study of complex network structure is to understand and explain the processes that take place on the network topology such as spreading of diseases or information propagation in social networks.
 
 After statistical properties analysis, the model of a complex network is created. The model can help us understand the meaning of statistical properties - how they came to be as they are and how they relate to the behaviour of a networked system. Based on the statistical properties and using the right model, the behavior of networked systems can be predicted.
 
@@ -132,7 +132,7 @@ A \emph{statistical model} $S_X(\theta)$ is a family of parametrized probability
  f(x_1, x_2, \dots, x_m; \theta) = \prod_{j=1}^{m}{f_{X}(x_j; \theta )}. 
 \end{equation}
 
-The function $L(\theta; x_1, x_2, \dots, x_m) = f(x_1, x_2, \dots, x_m; \theta)$ defined like \eqref{fxt} but considered as the function of $\theta$ depending on $m$ fixed parameters $x_1, x_2, \dots, x_m$ is a \emph{likelihood function}. The actual value of the likelihood function bears no meaning. It is used to compare how different members of the statistical model fit the training data. 
+The function $L(\theta; x_1, x_2, \dots, x_m) = f(x_1, x_2, \dots, x_m; \theta)$ defined like \eqref{fxt} but considered as the function of $\theta$ depending on $m$ fixed parameters $x_1, x_2, \dots, x_m$ is a \emph{likelihood function}. It is used to compare how different members of the statistical model fit the training data. 
 
 \emph{The principle of maximal likelihood} says that for the given random sample (training data or a dataset), we should use as a model the distribution from $S_X(\theta)$ that gives the greatest possible probability to the training data. Since the vector $\hat\theta$ that maximizes the probability of the traning data also maximizes the likelihood function $L$, it is obtained using the following equation:
 \begin{equation}
@@ -163,7 +163,7 @@ The conditional likelihood of $\theta$ given data $x \in X$ and $y \in Y$ is
 For finding the conditional likelihood estimator, the random sample consists of $m$  pairs $\{(x^{(i)}, y^{(i)}) | 1 \le i \le m\}$. If  all $y^{(i)}$ are independent when each is conditioned on its own $x^{(i)}$, we can define probability of the random sample as a product of probabilities for all pairs $\{(x^{(i)}, y^{(i)}) | 1 \le i \le m\}$ from the random sample, similar to \eqref{fxt}:
 \begin{equation}
 \label{fxt2}
- L(\theta; y | x_1, x_2, \dots, x_m) = \prod_{i=1}^{m}{P(Y = y | X = x_i;\theta)}    . 
+ L(\theta; y_1|x_1, y_2 | x_2, \dots y_m | x_m) = \prod_{i=1}^{m}{P(Y = y_i | X = x_i;\theta)}    . 
 \end{equation}
 
 After determining $\hat\theta$, we can use it to compute probabilities for the alternative values $y \in Y$ given any specific value of $x$. The procedure with this feature is called a \emph{classifier}.
@@ -460,7 +460,7 @@ S_{\beta} = P_{D' \in \mathcal{D}} (\beta > \beta(D')).
 
 The model estimation was performed on the Referendum Dataset. Firstly, the estimation was performed on the restricted graph of registered users without the nodes that never become active. After  that, the estimation was preformed on the complete graph of both registered users and their friends.
 
-The complete procedure was implemented in Python. Although the Referendum Dataset cannot be provided, reusable parts of the implementation can be found in \cite{code}. For the work with GML \cite{gml} format and the graph structure,  \emph{igraph} library \cite{igraph} was used and for the minimization step, implementation of BFGS algorithm from the \emph{SciPy} library \cite{scipy} was used. The $1^{st}$ order derivatives as derived in \eqref{dera}, \eqref{derb}, \eqref{derg}  were given to the procedure directly while the $2^{nd}$ order derivatives in the form of Hessian matrix were approximated internally. The initial values of $\alpha$, $\beta$ and $\gamma$ were taken uniformly at random from the range $[0, 1]$. For all experiments, a step size of $1$ minute was taken and the data from the first $5$  days of application being online was analyzed.
+The complete procedure was implemented in Python. Although the Referendum Dataset cannot be currently provided, reusable parts of the implementation can be found in \cite{code}. For the work with GML \cite{gml} format and the graph structure,  \emph{igraph} library \cite{igraph} was used and for the minimization step, implementation of BFGS algorithm from the \emph{SciPy} library \cite{scipy} was used. The $1^{st}$ order derivatives as derived in \eqref{dera}, \eqref{derb}, \eqref{derg}  were given to the procedure directly while the $2^{nd}$ order derivatives in the form of Hessian matrix were approximated internally. The initial values of $\alpha$, $\beta$ and $\gamma$ were taken uniformly at random from the range $[0, 1]$. For all experiments, a step size of $1$ minute was taken and the data from the first $5$  days of application being online was analyzed.
 
 \section{About the values of $A(x,y)$}
 Let's examine values of $A(x,y)$ with respect to $x$ for some fixed values of $y$ and compare them to the activation frequency for the time when all authorities were  inactive, \emph{i.e.} when external influence was not present.  The differences between these frequencies may indicate the possibility of external influence. 
@@ -630,6 +630,12 @@ If the external influence for an inactive node at time $t$ is measured by the nu
 \bibliography{literatura}
 \bibliographystyle{unsrt}
 \pagebreak
+\begin{sazetak}
+U ovom je radu objašnjen model za širenje informacije  u društvenoj mreži koji uzima u obzir i unutranji (društveni) i vanjski (medijski) utjecaj na širenje informacije. Na temelju predviđenih parametara modela te statističkog testa, moguće je donošenje odluke o načinu širenja promatrane informacije. Točnije, možemo odrediti da li se promatrana informacija više širila pod društvenim ili medijskim utjecajem. Izloženi model te njegova izmijenjena verzija korišteni su za određivanje prirode utjecaja širenja informacije o postojanju Facebook aplikacije referendum2013.hr. 
+
+\kljucnerijeci{kompleksne mreže, društvene mreže, širenje informacije, model širenja informacije, društveni utjecaj, medijski utjecaj}
+\end{sazetak}
+
 \engtitle{Information propagation in online social networks}
 \begin{abstract}
 In this paper the information propagation model that takes into account both internal (social) and external (authority) influence is presented and revisited. Based on the estimated parameters for the model and the randomization test called time-shuffle test, a decision whether propagation of an information item is mainly peer or authority influence driven can be made. The proposed model and its updated version were used to describe an information item - the existence of the Facebook application referendum2013.hr - as mainly propagated by external (authority) influence. 
