@@ -102,13 +102,17 @@ The degree distribution for the complete network of registered users only fits t
  
  In this case, information propagation refers to  information on the existence of the application that  spread among the network of users via link sharing through Facebook's social model of \emph{sharing} or directly. The timestamps of registrations indicate the times of adoption of that information item but how the adoption has happened remains unknown.  
    
- Along with the network of users and their Facebook friends, major online media coverage was observed and documented in the form of articles  along with its timestamps of publishing. The majority of peaks in voting activity dynamics align with the $11$ documented article timestamps, but the role of media in engaging the voters has to be confirmed with a model.  
+ Along with the network of users and their Facebook friends, major online media coverage was observed and documented in the form of articles  along with its timestamps of publishing.
+ 
+ The majority of peaks in voting activity dynamics align with the $11$ documented article timestamps, but the role of media in engaging the voters has to be confirmed with a model. 
+ 
+For simplicity, we will assume every media article had the same chance of influencing every recorded user and the users did not influence the media. With this assumptions, the network of media nodes is completely influentially separated from the user nodes, while the user nodes are not influentially separated from the media. Since that is the case, it is reasonable to think of media nodes as a complete graph of nodes that somehow exchange information between themselves.    
  
 \section{Datasets}
 \emph{Referendum Dataset} represents two network structures we will refer    to as  \emph{Restricted} and \emph{Complete Referendum Dataset}. 
 The \emph{Restricted Referendum Dataset} consists of two subgraphs. The first subgraph has $12763$ nodes representing the registered users. If two users are Facebook friends, there exists a bilateral connection between the two corresponding nodes. Every node also carries the  registration timestamp as a node attribute. 
 
-The nodes of the second subgraph correspond to $11$ recorded mass media articles. These nodes also carry the information about the timestamp of activation as a node attribute (the node is activated when the article got published). Every node in second subgraph has a bilateral edge with every other node in the subgraph. The two subgraphs are connected unilaterally: every node  representing the media (from the  second subgraph) has edges directed to every node representing a user (but not vice versa). 
+The nodes of the second subgraph correspond to $11$ recorded mass media articles. These nodes also carry the information about the timestamp of activation as a node attribute (the node is activated when the article got published). Every node in second subgraph has a bilateral edge with every other node in the subgraph. The two subgraphs are connected unilaterally: every node  representing the media (from the  second subgraph) has edges directed to every node representing a user (but not vice versa).
 
 By extending the first subgraph with nodes representing the Facebook friends of registered users that did not  register, network structure we will refer to as \emph{Complete  Referendum Dataset} is obtained. 
 
@@ -436,7 +440,7 @@ It is reasonable to say: if $\alpha > \beta$ than information is peer-propagated
 
 In order to verify that this kind of conclusion is based on strong evidence in the data, \cite{akm-icsn-kdd08} and \cite{authority} proposed randomization test called \emph{time-shuffle test}.
 
-Let $D$ be the subset of $V \cup A$ that contains all nodes that eventually become active. The time-shuffle test permutes the activation times of the nodes in $D$. The randomized version of $D$ made in this way contains the same nodes as $D$ (those that eventually become active) with different attributes $t$. Denote by $D'$ randomized version of $D$ with permuted timestamp attributes $t$. 
+Let $D$ be the subset of $V \cup A$ that contains all nodes (peer or authority) that eventually become active. The time-shuffle test permutes the activation times of the nodes in $D$. The randomized version of $D$ made in this way contains the same nodes as $D$ (those that eventually become active) with different attributes $t$. Denote by $D'$ randomized version of $D$ with permuted timestamp attributes $t$. 
 
 The input for the estimation algorithm consist of network $H$ and set of nodes $D$, denoted by $\langle H, D\rangle$. Let $\alpha(D')$ and $\beta(D')$ be the estimates of peer and authority coefficients for input $\langle H, D'\rangle$. Let $\alpha$ and $\beta$ denote the maximum-likelihood estimation of the peer and authority coefficients for the original input $\langle H, D\rangle$. Let $\mathcal{D}$ be the set of all possible randomized versions of set $D$ via the time-shuffle test. 
 
@@ -459,9 +463,12 @@ The model estimation was performed on the Referendum Dataset. Firstly, the estim
 The complete procedure was implemented in Python. Although the Referendum Dataset cannot be provided, reusable parts of the implementation can be found in \cite{code}. For the work with GML \cite{gml} format and the graph structure,  \emph{igraph} library \cite{igraph} was used and for the minimization step, implementation of BFGS algorithm from the \emph{SciPy} library \cite{scipy} was used. The $1^{st}$ order derivatives as derived in \eqref{dera}, \eqref{derb}, \eqref{derg}  were given to the procedure directly while the $2^{nd}$ order derivatives in the form of Hessian matrix were approximated internally. The initial values of $\alpha$, $\beta$ and $\gamma$ were taken uniformly at random from the range $[0, 1]$. For all experiments, a step size of $1$ minute was taken and the data from the first $5$  days of application being online was analyzed.
 
 \section{About the values of $A(x,y)$}
-Values of $A(x, y)$ for the fixed value  of $y$ may indicate the presence of external influence in the dataset. For a fixed value of $y$, the value of $A(x,y)$ stands for the frequency of activation for nodes with $x$ active neighbours at the time, counted between the activation of $y^{th}$ and $(y+1)^{th}$  authority. Value of $A(x,0)$ is thus calculated between time step $0$ and the activation of the first authority. The graphs of $A(x,y)$ for the fixed value of $y > 0$ on the Referendum Dataset have the shape similar to Figure \ref{jutarnji1}. However, there is one exception and it is shown on the Figure \ref{034}. For the reference,  $A(x, 0)$, frequency of activation  before authorities were present is shown on the Figure \ref{y0}. 
+Let's examine values of $A(x,y)$ with respect to $x$ for some fixed values of $y$ and compare them to the activation frequency for the time when all authorities were  inactive, \emph{i.e.} when external influence was not present.  The differences between these frequencies may indicate the possibility of external influence. 
+
+ For a fixed $y$, the value of $A(x,y)$ stands for the frequency of activation for nodes with $x$ active neighbours at the time while exactly $y$ authorities were active, \emph{i.e.} the activation has happened between the activation of $y^{th}$ and $(y+1)^{th}$  activated authority. Value of $A(x,0)$ is thus calculated for nodes that became active before the activation of the $1^{st}$ activated authority and the value of $A(x,3)$ is calculated for the nodes activated between the activation of $3^{rd}$ activated and $4^{th}$ activated authority.
+
+ The graphs of $A(x,y)$ for the fixed value of $ 0 \le y \leq 11$ on the Referendum Dataset have the shape similar to Figure \ref{jutarnji1}. However, there is one exception and it is shown on the Figure \ref{034}. For the reference,  $A(x, 0)$, frequency of activation  before authorities were present is shown on the Figure \ref{y0}. 
 \begin{figure}
-%TODO stavi prvu od 0-50
 \begin{subfigure}{\textwidth}
 \centering
 \includegraphics[scale=0.4]{y0.png}
@@ -485,7 +492,7 @@ Values of $A(x, y)$ for the fixed value  of $y$ may indicate the presence of ext
 \label{fig:test}
 \end{figure}
 
-In the  case of information propagation where only social influence is present, graph of frequency of activation with respect to the number of activated neighbours $x$ would look similar to the Figure \ref{y0}. That is, frequency of activation for nodes that have at least one activated neighbour will be greater than the number of activations for nodes with $0$ neighbours active.  A certain sign of authority presence is unexpected frequency of activation for nodes that have $0$ activated neighbours. The Figure \ref{jutarnji1} is an example of that kind of activity where frequency of activation with $0$ neighbours active exceed the frequency of activation with $1$ friend active. 
+In the  case of information propagation where only social influence is present, graph of activation frequency  with respect to the number of activated neighbours $x$ would look similar to the Figure \ref{y0}. That is, activation frequency for nodes that have at least one activated neighbour will be greater than the number of activations for nodes with $0$ neighbours active.  A certain sign of authority presence is unexpected frequency of activation for nodes that have $0$ activated neighbours. The Figure \ref{jutarnji1} is an example of that kind of activity where frequency of activation with $0$ neighbours active exceed the frequency of activation with $1$ friend active. 
 
 The information propagation dynamic after activation of authority $y=7$ is suspected to be primarily pressured by internal (social influence) what is further approved with Figure \ref{034}. It is important to notice that, as time passes and more nodes become active, the probability of a node having $0$ active neighbours decreases, even for the nodes that become active pressured by external influence. Although the authority $y = 7$ becomes active relatively late, the frequency of activation related to authorities that activate after $y = 7$ form a shape similar to \ref{jutarnji1}. The suspicion of information about the application being propagated mostly pressured by external influence will be confirmed with a model.
 
@@ -604,7 +611,7 @@ Estimation of $\alpha$, $\beta$ and $\gamma$  for the Restricted Referendum Data
 \label{hist_full2}
 \end{figure}
 								
-The estimation for the Complete Referendum dataset returns $\alpha=0.89215$, $\beta=1.36409$, $\gamma=-15.7230$. The strength of peer and authority influence was again obtained by the time-shuffle test based on $500$ randomized instances of the complete input graph and strengths $S_{\alpha} = 1.00$, $S_{\beta} = 0.99803$ were obtained. Frequency histograms of estimated $\alpha(D')$ and $\beta(D')$ of randomized datasets $D' \in \mathcal{D}$ used in this test are shown on the Figure \ref{hist_full3}. 
+The estimation for the Complete Referendum dataset returns $\alpha=0.89215$, $\beta=1.36409$, $\gamma=-15.7230$. The strength of peer and authority influence was again obtained by the time-shuffle test based on $500$ randomized instances of the complete input graph and strengths $S_{\alpha} = 1.000$, $S_{\beta} = 0.998$ were obtained. Frequency histograms of estimated $\alpha(D')$ and $\beta(D')$ of randomized datasets $D' \in \mathcal{D}$ used in this test are shown on the Figure \ref{hist_full3}. 
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.7]{abg500v.png}	
@@ -622,12 +629,11 @@ If the external influence for an inactive node at time $t$ is measured by the nu
 
 \bibliography{literatura}
 \bibliographystyle{unsrt}
-
 \pagebreak
 \engtitle{Information propagation in online social networks}
 \begin{abstract}
 In this paper the information propagation model that takes into account both internal (social) and external (authority) influence is presented and revisited. Based on the estimated parameters for the model and the randomization test called time-shuffle test, a decision whether propagation of an information item is mainly peer or authority influence driven can be made. The proposed model and its updated version were used to describe an information item - the existence of the Facebook application referendum2013.hr - as mainly propagated by external (authority) influence. 
 
-\keywords{complex networks,  social networks, information propagation,, internal and external influence, peer and authority model,time-shuffle test}
+\keywords{complex networks,  social networks, information propagation, internal and external influence, peer and authority model,time-shuffle test}
 \end{abstract}
 \end{document}
