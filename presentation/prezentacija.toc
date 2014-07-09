@@ -1,0 +1,10 @@
+\beamer@endinputifotherversion {3.10pt}
+\beamer@sectionintoc {1}{Introduction}{2}{0}{1}
+\beamer@subsectionintoc {1}{1}{Complex networks}{2}{0}{1}
+\beamer@subsectionintoc {1}{2}{Information propagation}{4}{0}{1}
+\beamer@sectionintoc {2}{Dataset}{5}{0}{2}
+\beamer@sectionintoc {3}{Model}{10}{0}{3}
+\beamer@subsectionintoc {3}{1}{The proces of information propagation}{10}{0}{3}
+\beamer@subsectionintoc {3}{2}{The structure of the network}{10}{0}{3}
+\beamer@sectionintoc {4}{Results}{17}{0}{4}
+\beamer@subsectionintoc {4}{1}{Restricted Referendum Dataset}{17}{0}{4}

@@ -1,0 +1,19 @@
+graph G {
+  a -- b --  c;
+  c -- d -- a -- e -- d;
+  e -- c -- a;
+  a -- a1;
+  a -- a2;
+  b -- b1;
+  c -- c1;
+  d -- d1;
+  e -- e1;
+  e -- e3;
+
+  node [label = ""]
+  a [color = red, style=filled];
+  b [color = red, style=filled];
+  c [color = red, style = filled];
+  d [color = green, style = filled];
+  e [color = green, style = filled];
+  }
